@@ -13,13 +13,13 @@ function htmlDecodeWithLineBreaks($, html) {
 }
 
 module.exports.performSearch = async query => {
-  console.log(query);
   const result = await request(
     `https://bash.im/search?text=${encodeURI(query)}`
   );
   const $ = cheerio.load(result);
 
   return $(".quotes .quote")
+    .slice(0, 10)
     .map((i, item) => {
       const html = $(item)
         .find(".quote__body")

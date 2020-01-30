@@ -18,7 +18,7 @@ bot.on("inline_query", async msg => {
 
   const searchResults = await performSearch(msg.query);
 
-  const messages = searchResults.slice(0, 10).map((quote, index) => {
+  const messages = searchResults.map((quote, index) => {
     return {
       type: "article",
       id: index,
