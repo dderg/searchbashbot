@@ -1,5 +1,4 @@
 import cheerio from "cheerio";
-import request from "request-promise";
 
 const htmlDecodeWithLineBreaks = (
   $: ReturnType<typeof cheerio.load>,
@@ -15,11 +14,8 @@ const htmlDecodeWithLineBreaks = (
     .replace(new RegExp(breakToken, "g"), "\n");
 };
 
-export const performSearch = async (query: string): Promise<string[]> => {
-  const result = await request(
-    `https://bash.im/search?text=${encodeURI(query)}`
-  );
-  const $ = cheerio.load(result);
+export const parseSearchPage = (html: string): string[] => {
+  const $ = cheerio.load(html);
 
   return $(".quotes .quote")
     .slice(0, 10)

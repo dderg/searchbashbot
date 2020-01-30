@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
+import request from "request-promise";
 import TelegramBot, { InlineQueryResultArticle } from "node-telegram-bot-api";
-import { performSearch } from "./parser";
+import { parseSearchPage } from "./parser/parser";
 
 dotenv.config({ path: ".env" });
 
@@ -18,7 +19,10 @@ bot.on("inline_query", async msg => {
     return;
   }
 
-  const searchResults = await performSearch(msg.query);
+  const html = await request(
+    `https://bash.im/search?text=${encodeURI(msg.query)}`
+  );
+  const searchResults = parseSearchPage(html);
 
   const messages = searchResults.map((quote, index) => {
     const article: InlineQueryResultArticle = {
