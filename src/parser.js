@@ -18,23 +18,14 @@ module.exports.performSearch = async query => {
     `https://bash.im/search?text=${encodeURI(query)}`
   );
   const $ = cheerio.load(result);
-  const quotes = $(".quotes .quote")
-    .map((i, item) => {
-      const text = htmlDecodeWithLineBreaks(
-        $,
-        $(item)
-          .find(".quote__body")
-          .html()
-      );
-      const link = $(item)
-        .find(".quote__header_permalink")
-        .attr("href");
 
-      return {
-        text,
-        url: `https://bash.im${link}`
-      };
+  return $(".quotes .quote")
+    .map((i, item) => {
+      const html = $(item)
+        .find(".quote__body")
+        .html();
+
+      return htmlDecodeWithLineBreaks($, html);
     })
     .get();
-  return quotes;
 };

@@ -22,11 +22,9 @@ bot.on("inline_query", async msg => {
     return {
       type: "article",
       id: index,
-      title: quote.text,
-      url: quote.url,
-      hide_url: false,
+      title: quote,
       input_message_content: {
-        message_text: quote.text
+        message_text: quote
       }
     };
   });
