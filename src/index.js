@@ -33,8 +33,3 @@ bot.on("inline_query", async msg => {
 
   bot.answerInlineQuery(msg.id, messages);
 });
-
-// Just to ping!
-bot.on("message", function onMessage(msg) {
-  bot.sendMessage(msg.chat.id, "I am alive on Heroku!");
-});
