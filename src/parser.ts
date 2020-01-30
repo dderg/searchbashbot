@@ -1,7 +1,10 @@
-const cheerio = require("cheerio");
-const request = require("request-promise");
+import cheerio from "cheerio";
+import request from "request-promise";
 
-function htmlDecodeWithLineBreaks($, html) {
+const htmlDecodeWithLineBreaks = (
+  $: ReturnType<typeof cheerio.load>,
+  html: string
+) => {
   var breakToken = "_______break_______",
     lineBreakedHtml = html
       .replace(/<br\s?\/?>/gi, breakToken)
@@ -10,9 +13,9 @@ function htmlDecodeWithLineBreaks($, html) {
     .html(lineBreakedHtml)
     .text()
     .replace(new RegExp(breakToken, "g"), "\n");
-}
+};
 
-module.exports.performSearch = async query => {
+export const performSearch = async (query: string): Promise<string[]> => {
   const result = await request(
     `https://bash.im/search?text=${encodeURI(query)}`
   );
